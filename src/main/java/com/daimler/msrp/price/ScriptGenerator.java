@@ -55,7 +55,7 @@ public class ScriptGenerator {
         return sb.toString();
     }
 
-    public static String readScriptTemplate(File file, String replaceString) {
+    private static String readScriptTemplate(File file, String replaceString) {
         BufferedReader reader = null;
         final StringBuilder newContent = new StringBuilder();
         try

@@ -6,10 +6,10 @@ modelService = spring.getBean "modelService"
 currencyDao = spring.getBean "currencyDao"
 
 HashMap<String, String> vin2priceMap = new HashMap();
-//put all start price here
-vin2priceMap.put("YYYANNCNSS4000145", "163000");
-vin2priceMap.put("LE4ZG4JB7HL095896", "474700");
+//start retail msrp definition
 %s
+
+//end retail msrp definition
 
 for (key in vin2priceMap.keySet()) {
 
@@ -21,7 +21,7 @@ for (key in vin2priceMap.keySet()) {
 	try {
 		backlog = flexibleSearchService.getModelByExample(backlogEx);
 	} catch(ModelNotFoundException e) {
-		println "Can't find vin"+ key;
+		println "Can't find vin "+ key;
 		continue
 	}
 
@@ -33,7 +33,7 @@ for (key in vin2priceMap.keySet()) {
 
 	final String nstStartPriceafter = backlog.getTotalPrice();
 
-	println nstStartPriceBefore + "->" + nstStartPriceafter
+	println key + "|" + nstStartPriceBefore + "|" + nstStartPriceafter
 
 }
 
