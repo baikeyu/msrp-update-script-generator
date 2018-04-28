@@ -27,9 +27,9 @@ for(vin in ownershipList)
         }
         catch (Exception exc)
         {
-            println "Unclaim failed, vin->"+ vin.getVin();
+            println "Unclaim failed, vin -> "+ vin.getVin();
             continue
         }
-        println "unclaim success, vin->"+ vin.getVin();
+        println "unclaim success, vin -> "+ vin.getVin();
     }
 }
