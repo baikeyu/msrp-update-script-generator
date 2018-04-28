@@ -2,8 +2,9 @@ package com.daimler.msrp.price;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 
-public class Excutor {
+public class Executor {
 
     public static void main(String[] args) {
 
@@ -18,6 +19,9 @@ public class Excutor {
         System.out.println(url.getFile());
         File file = new File(url.getFile());
         System.out.println(file.exists());
-        ExcelPaser.getStandardMsrpList(file);
+        List<PriceModel> priceList = ExcelParser.getStandardMsrpList(file);
+
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        ScriptGenerator.generateScript("changeStartPrice" + timestamp + ".groovy", priceList, ScriptType.NST_MSRP);
     }
 }

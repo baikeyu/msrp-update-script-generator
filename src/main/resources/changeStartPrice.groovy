@@ -34,7 +34,7 @@ for (key in nst2priceMap.keySet()) {
         modelService.saveAll();
 
         final BigDecimal nstStartPriceafter = nstModel.getStartPrice().get(0).getPrice();
-        println nstStartPriceBefore + "->" + nstStartPriceafter
+        println key + "|" + nstStartPriceBefore + "|" + nstStartPriceafter
     } else {
         println "Can't find nst code"+ key;
         continue

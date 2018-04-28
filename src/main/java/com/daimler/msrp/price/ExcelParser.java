@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExcelPaser {
+public class ExcelParser {
 
     private static final Integer[] CBU_POS = {3, 7, 8};
     private static final Integer[] PBP_POS = {1, 5, 6};
