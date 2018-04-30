@@ -22,6 +22,6 @@ public class Executor {
         List<PriceModel> priceList = ExcelParser.getStandardMsrpList(file);
 
         String timestamp = String.valueOf(System.currentTimeMillis());
-        ScriptGenerator.generateScript("changeStartPrice" + timestamp + ".groovy", priceList, ScriptType.RETAIL_MSRP);
+        ScriptGenerator.generateScript("changeStartPrice" + timestamp + ".groovy", priceList, ScriptType.NST_MSRP);
     }
 }
