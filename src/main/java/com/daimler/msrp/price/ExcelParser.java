@@ -41,7 +41,8 @@ public class ExcelParser {
             Cell nst = row.getCell(pos[0]);
             Cell originalPrice = row.getCell(pos[1]);
             Cell newPrice = row.getCell(pos[2]);
-            PriceModel priceModel = new PriceModel(nst.getStringCellValue(), originalPrice.getStringCellValue(),
+            String finalNst = formatNstCode(nst.getStringCellValue());
+            PriceModel priceModel = new PriceModel(finalNst, originalPrice.getStringCellValue(),
                     newPrice.getStringCellValue());
             System.out.println(priceModel);
             priceList.add(priceModel);
@@ -61,5 +62,14 @@ public class ExcelParser {
                 .bufferSize(4096)     // buffer size to use when reading InputStream to file (defaults to 1024)
                 .open(is);            // InputStream or File for XLSX file (required)
         return workbook;
+    }
+
+    private static String formatNstCode(String nst) {
+        if (nst.startsWith("453") || nst.startsWith("463")) {
+            String smartBaumaster = nst.substring(0, 6);
+            String smartNst = nst.substring(8);
+            return smartBaumaster + smartNst;
+        }
+        return nst;
     }
 }
