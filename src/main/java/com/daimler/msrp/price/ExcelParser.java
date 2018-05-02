@@ -18,6 +18,18 @@ public class ExcelParser {
     private static final Integer[] CBU_POS = {3, 7, 8};
     private static final Integer[] PBP_POS = {1, 5, 6};
 
+    private static final Integer[] SMART_RETAIL_POS = {1, 0, 2};
+
+    public static List<PriceModel> getRetailMsrpList(File file) {
+        Workbook workbook = getWorkbook(file);
+        List<PriceModel> priceList = new ArrayList<PriceModel>();
+        for (Sheet sheet : workbook){
+            System.out.println("Read excel sheet: " + sheet.getSheetName());
+            priceList.addAll(createPriceModel(sheet, SMART_RETAIL_POS));
+        }
+        return priceList;
+    }
+
     public static List<PriceModel> getStandardMsrpList(File file) {
         Workbook workbook = getWorkbook(file);
         List<PriceModel> priceList = new ArrayList<PriceModel>();
@@ -38,12 +50,13 @@ public class ExcelParser {
             if (row.getRowNum() == 0) {
                 continue;
             }
-            Cell nst = row.getCell(pos[0]);
-            Cell originalPrice = row.getCell(pos[1]);
-            Cell newPrice = row.getCell(pos[2]);
-            String finalNst = formatNstCode(nst.getStringCellValue());
-            PriceModel priceModel = new PriceModel(finalNst, originalPrice.getStringCellValue(),
-                    newPrice.getStringCellValue());
+            Cell nstCell = row.getCell(pos[0]);
+            Cell originalPriceCell = row.getCell(pos[1]);
+            Cell newPriceCell = row.getCell(pos[2]);
+            String nst = nstCell != null ? formatNstCode(nstCell.getStringCellValue()) : "";
+            String originalPrice = originalPriceCell != null ? originalPriceCell.getStringCellValue().replaceAll(",", "") : "";
+            String newPrice = newPriceCell != null ? newPriceCell.getStringCellValue().replaceAll(",", "") : "";
+            PriceModel priceModel = new PriceModel(nst, originalPrice, newPrice);
             System.out.println(priceModel);
             priceList.add(priceModel);
         }
