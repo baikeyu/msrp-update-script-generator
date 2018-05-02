@@ -21,6 +21,7 @@ vin2priceMap.put("WMEFJ6CA2JK242245", "227000");
 vin2priceMap.put("WMEFJ6CA2JK243167", "227000");
 vin2priceMap.put("WMEFJ6CA5JK241946", "227000");
 vin2priceMap.put("WMEFJ6CA5JK242854", "227000");
+vin2priceMap.put("WMEFJ6CA5JK241512", "227000");
 
 
 //end retail msrp definition
@@ -50,6 +51,3 @@ for (key in vin2priceMap.keySet()) {
 	println key + "|" + nstStartPriceBefore + "|" + nstStartPriceafter
 
 }
-
-
-
