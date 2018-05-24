@@ -1,0 +1,22 @@
+
+
+import com.daimler.dcp.biz.china.model.DcpOwnershipModel
+import de.hybris.platform.storelocator.model.PointOfServiceModel
+import com.daimler.dcp.biz.china.enums.OwnershipStatusEnum;
+import java.util.Collection
+import de.hybris.platform.servicelayer.exceptions.ModelNotFoundException;
+
+Map<String, String> vinMap = new HashMap();
+//start unclaim vin
+%s
+
+for (vin in vinMap.entrySet()) {
+    try {
+        dcpOwnershipService.unclaimWithPos(vin.getKey(), vin.getValue(), false);
+    }
+    catch (Exception exc) {
+        println "Unclaim failed, vin -> " + vin;
+        continue
+    }
+    println "unclaim success, vin -> " + vin;
+}
