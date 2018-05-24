@@ -18,18 +18,22 @@ public class ExcelParser {
     private static final Integer[] CBU_POS = {3, 7, 6};
     private static final Integer[] PBP_POS = {1, 5, 6};
 
-    private static final Integer[] SMART_RETAIL_POS = {1, 0, 2};
+    private static final Integer[] SMART_RETAIL_POS = {1, 2};
     private static final Integer[] UNCLAIM_VIN_POS = {0, 2};
 
-    public static List<PriceModel> getRetailMsrpList(File file) {
+    private static final Integer[] RETAIL_PRICE_POS = {0, 8};
+
+    public static List<RetailPriceModel> getRetailMsrpList(File file) {
         Workbook workbook = getWorkbook(file);
-        List<PriceModel> priceList = new ArrayList<PriceModel>();
+        List<RetailPriceModel> priceList = new ArrayList<RetailPriceModel>();
         for (Sheet sheet : workbook){
             System.out.println("Read excel sheet: " + sheet.getSheetName());
-            priceList.addAll(createPriceModel(sheet, SMART_RETAIL_POS));
+            priceList.addAll(createRetailPriceModel(sheet, SMART_RETAIL_POS));
         }
         return priceList;
     }
+
+
 
     public static List<VinModel> getVinList(File file) {
         Workbook workbook = getWorkbook(file);
@@ -53,6 +57,24 @@ public class ExcelParser {
             }
         }
         return priceList;
+    }
+
+    private static List<RetailPriceModel> createRetailPriceModel(Sheet sheet, Integer ... pos) {
+        List<RetailPriceModel> retailPriceList = new ArrayList<>();
+        for (Row row : sheet) {
+            if (row.getRowNum() == 0) {
+                continue;
+            }
+            Cell vinCell = row.getCell(pos[0]);
+            Cell newPriceCel = row.getCell(pos[1]);
+            String vin = vinCell != null ? formatNstCode(vinCell.getStringCellValue()) : "";
+            String newPrice = newPriceCel != null ? newPriceCel.getStringCellValue().replaceAll(",", "")
+                    .replaceAll("\"", "") : "";
+            RetailPriceModel vinModel = new RetailPriceModel(vin, newPrice);
+            System.out.println(vinModel);
+            retailPriceList.add(vinModel);
+        }
+        return retailPriceList;
     }
 
     private static List<VinModel> createVinList(Sheet sheet, Integer ... pos) {

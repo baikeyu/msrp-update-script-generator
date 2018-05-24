@@ -29,7 +29,7 @@ public class ScriptGenerator {
                 break;
             case RETAIL_MSRP:
                 File retailTemplateFile = new File(ClassLoader.getSystemResource(RETAIL_TEMPLATE_NAME).getFile());
-                updateContent = convertPriceInfo(list, RETAIL_MSRP);
+                updateContent = convertRetailPriceInfo(list, RETAIL_MSRP);
                 writeToFile(fileName, readScriptTemplate(retailTemplateFile, updateContent));
                 break;
             case UNCLAIM:
@@ -52,6 +52,14 @@ public class ScriptGenerator {
             e.printStackTrace();
         }
 
+    }
+
+    private static String convertRetailPriceInfo(List<RetailPriceModel> priceList, String template) {
+        StringBuilder sb = new StringBuilder();
+        for (RetailPriceModel price : priceList) {
+            sb.append(String.format(template, price.getVin(), price.getNewPrice()) + "\n");
+        }
+        return sb.toString();
     }
 
     private static String convertPriceInfo(List<PriceModel> priceList, String template) {
