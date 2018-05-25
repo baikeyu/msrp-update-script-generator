@@ -23,6 +23,16 @@ public class ExcelParser {
 
     private static final Integer[] RETAIL_PRICE_POS = {0, 8};
 
+    private static final String TARGET_LIST = "15694310, 25394310, 21314210, 20504310, 21314310, 20504210, 21304210, 21304310, 25394910, 15694710, 25394610, 21304810, 20514010, 20514210, 20514310, 21314810";
+
+    public static void searchString(File file) {
+        Workbook workbook = getWorkbook(file);
+        for (Sheet sheet : workbook){
+            System.out.println("Read excel sheet: " + sheet.getSheetName());
+            sheetSearch(sheet, TARGET_LIST);
+        }
+    }
+
     public static List<RetailPriceModel> getRetailMsrpList(File file) {
         Workbook workbook = getWorkbook(file);
         List<RetailPriceModel> priceList = new ArrayList<RetailPriceModel>();
@@ -57,6 +67,20 @@ public class ExcelParser {
             }
         }
         return priceList;
+    }
+
+    private static void sheetSearch(Sheet sheet, String list) {
+        for (Row row : sheet) {
+            if (row.getRowNum() == 0) {
+                continue;
+            }
+            Cell baumusterCell = row.getCell(2);
+            String baumuste = baumusterCell != null ? baumusterCell.getStringCellValue() : "null";
+            if (list.contains(baumuste)) {
+                String nst = row.getCell(3).getStringCellValue();
+                System.out.println(nst);
+            }
+        }
     }
 
     private static List<RetailPriceModel> createRetailPriceModel(Sheet sheet, Integer ... pos) {
